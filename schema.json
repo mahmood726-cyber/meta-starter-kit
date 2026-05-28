@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "meta-starter-kit review config",
+  "type": "object",
+  "required": ["title", "effect_measure", "trials"],
+  "properties": {
+    "title": { "type": "string", "minLength": 1 },
+    "intervention": { "type": "string" },
+    "comparator": { "type": "string" },
+    "condition": { "type": "string" },
+    "outcome": { "type": "string" },
+    "authors": { "type": "string" },
+    "effect_measure": {
+      "type": "string",
+      "enum": ["OR", "HR", "RR", "MD", "SMD", "RD"]
+    },
+    "trials": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "nct": { "type": "string" },
+          "year": { "type": "integer" },
+          "pmid": { "type": "string" },
+          "tE": { "type": "integer", "minimum": 0 },
+          "tN": { "type": "integer", "minimum": 1 },
+          "cE": { "type": "integer", "minimum": 0 },
+          "cN": { "type": "integer", "minimum": 1 },
+          "effect": { "type": "number" },
+          "ci_low": { "type": "number" },
+          "ci_high": { "type": "number" }
+        },
+        "oneOf": [
+          { "required": ["tE", "tN", "cE", "cN"] },
+          { "required": ["effect", "ci_low", "ci_high"] }
+        ]
+      }
+    }
+  }
+}

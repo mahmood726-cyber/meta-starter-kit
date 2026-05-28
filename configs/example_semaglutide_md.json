@@ -1,0 +1,14 @@
+{
+  "title": "Semaglutide vs placebo for body-weight reduction in obesity",
+  "intervention": "Semaglutide 2.4 mg",
+  "comparator": "Placebo",
+  "condition": "Adults with obesity (BMI >= 30)",
+  "outcome": "Percent change in body weight at 68 weeks",
+  "effect_measure": "MD",
+  "authors": "Example authorship line",
+  "trials": [
+    { "name": "STEP 1", "nct": "NCT03548935", "year": 2021, "effect": -12.4, "ci_low": -13.4, "ci_high": -11.5 },
+    { "name": "STEP 3", "nct": "NCT03611582", "year": 2021, "effect": -10.3, "ci_low": -12.0, "ci_high": -8.6 },
+    { "name": "STEP 4", "nct": "NCT03548987", "year": 2021, "effect": -7.9,  "ci_low": -9.0,  "ci_high": -6.8 }
+  ]
+}

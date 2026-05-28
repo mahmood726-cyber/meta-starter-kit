@@ -1,0 +1,14 @@
+{
+  "title": "Finerenone for cardiorenal outcomes in type 2 diabetes with CKD",
+  "intervention": "Finerenone",
+  "comparator": "Placebo",
+  "condition": "Type 2 diabetes with chronic kidney disease",
+  "outcome": "Composite cardiovascular death or hospitalisation for heart failure",
+  "effect_measure": "OR",
+  "authors": "Example authorship line",
+  "trials": [
+    { "name": "FIDELIO-DKD", "nct": "NCT02540993", "year": 2020, "tE": 367, "tN": 2833, "cE": 420, "cN": 2841 },
+    { "name": "FIGARO-DKD",  "nct": "NCT02545049", "year": 2021, "tE": 458, "tN": 3686, "cE": 519, "cN": 3666 },
+    { "name": "FINEARTS-HF", "nct": "NCT04435626", "year": 2024, "tE": 624, "tN": 3003, "cE": 719, "cN": 2998 }
+  ]
+}

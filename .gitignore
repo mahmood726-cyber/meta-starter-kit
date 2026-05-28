@@ -1,0 +1,15 @@
+# Built pages are regenerable. Ignore user output but KEEP the example
+# outputs so first-time / offline users can preview results without running.
+output/*.html
+!output/example_finerenone_ckd.html
+!output/example_semaglutide_md.html
+
+# Python
+__pycache__/
+*.pyc
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
