@@ -7,6 +7,36 @@ heavy lifting (random-effects pooling, forest plot, page layout) is already
 written and tested, so an AI CLI (or a person) only fills in the trial
 numbers.
 
+---
+
+## ⬇️ Download (one click)
+
+**[Click here to download the whole kit as a ZIP »](https://github.com/mahmood726-cyber/meta-starter-kit/archive/refs/heads/main.zip)**
+
+Then unzip it. That's everything you need. (You can also get versioned
+downloads on the [Releases page](https://github.com/mahmood726-cyber/meta-starter-kit/releases).)
+
+## ▶️ Use it in 3 steps
+
+1. **Install Python** (once) if you don't have it: <https://www.python.org/downloads/>
+   — during install on Windows, tick **"Add Python to PATH"**.
+2. **Run the example.**
+   - **Windows:** double-click **`RUN_EXAMPLE.bat`**.
+   - **Mac/Linux:** run `bash run_example.sh` in the unzipped folder.
+   - **Any system (terminal):** `python build.py configs/example_finerenone_ckd.json`
+3. **Open the result** — the file `output/example_finerenone_ckd.html` —
+   in any web browser (the launcher opens it for you). Done: a full
+   meta-analysis with a forest plot.
+
+To make your **own** review, copy a file in `configs/`, put your trial
+numbers in, and run `python build.py configs/your_file.json`. See
+[Make your own](#make-your-own) below.
+
+> No internet needed after download. Nothing to install except Python.
+> Works on Windows, Mac, and Linux.
+
+---
+
 ## Why this exists
 
 Generating a full meta-analysis dashboard from scratch with an LLM burns a
