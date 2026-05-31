@@ -35,6 +35,23 @@ numbers in, and run `python build.py configs/your_file.json`. See
 > No internet needed after download. Nothing to install except Python.
 > Works on Windows, Mac, and Linux.
 
+### Optional: auto-fill configs from trial PDFs/abstracts
+
+Instead of typing the trial numbers, you can extract them with the
+[rct-extractor-v2](https://github.com/mahmood726-cyber/rct-extractor-v2)
+cardiology/malaria extractor (it pulls precomputed effects for cardiology and
+raw 2×2 counts for malaria). The kit stays zero-dependency — this is opt-in:
+
+```bash
+# in rct-extractor-v2:  records.json = [{name, text, nct?, pmid?, year?}, ...]
+python scripts/build_metakit_config.py records.json --out my_review.json
+# then here:
+python build.py my_review.json
+```
+or from Python via `metakit/from_extractor.py` (set `RCT_EXTRACTOR_PATH`). The
+extractor → config → forest-plot flow is the same JSON contract documented in
+`schema.json`.
+
 ---
 
 ## Why this exists
