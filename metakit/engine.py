@@ -1,12 +1,12 @@
 """Random-effects meta-analysis engine — pure Python, no dependencies.
 
 Implements the methodology the rapidmeta project standardised on:
-  * REML tau-squared (iterative, Viechtbauer 2005)
+  * Paule-Mandel tau-squared (iterative Q matching)
   * Knapp-Hartung (HKSJ) variance scaling with a FLOOR at 1 (Wiksten 2016)
     so that low-heterogeneity pools are not given falsely narrow CIs
   * Prediction interval via t_(k-1) per Cochrane Handbook v6.5 (undefined
     for k < 3)
-  * Binary outcomes -> log odds ratio, Yates 0.5 correction ONLY when a
+  * Binary outcomes -> log odds ratio, 0.5 continuity correction ONLY when a
     cell is zero
   * Continuous / pre-computed effects -> pool the effect + its SE directly;
     ratio scales (HR/OR/RR) are pooled on the log scale and back-transformed
@@ -34,24 +34,33 @@ def normal_cdf(z: float) -> float:
 def t_quantile_975(df: int) -> float:
     """Two-sided 97.5% Student-t quantile (upper-tail alpha = 0.025).
 
-    Exact small-df table + Cornish-Fisher expansion for larger df. Good to
-    ~1e-4 for df >= 2, which is well within display precision.
+    High-precision integer-df table + Cornish-Fisher expansion above df=40.
+    References and regeneration script are in validation/. Tests compare
+    against R qt() at absolute tolerance 1e-6; this is not a clinical audit.
     """
     if df <= 0:
         return float("nan")
     table = {
-        1: 12.7062, 2: 4.30265, 3: 3.18245, 4: 2.77645, 5: 2.57058,
-        6: 2.44691, 7: 2.36462, 8: 2.306, 9: 2.26216, 10: 2.22814,
-        11: 2.20099, 12: 2.1788, 13: 2.16037, 14: 2.14479, 15: 2.13145,
-        16: 2.11991, 17: 2.10982, 18: 2.10092, 19: 2.09302, 20: 2.08596,
-        21: 2.07961, 22: 2.07387, 23: 2.06866, 24: 2.0639, 25: 2.05954,
-        26: 2.05553, 27: 2.05183, 28: 2.04841, 29: 2.04523, 30: 2.04227,
-        40: 2.02108, 50: 2.00856, 60: 2.0003, 80: 1.99006, 100: 1.98397,
+        1: 12.706204736174694, 2: 4.3026527297494619, 3: 3.1824463052837078,
+        4: 2.7764451051977934, 5: 2.5705818356363137, 6: 2.4469118511449688,
+        7: 2.3646242515927836, 8: 2.3060041352041662, 9: 2.2621571627982049,
+        10: 2.2281388519862739, 11: 2.2009851600916388, 12: 2.1788128296672284,
+        13: 2.1603686564627917, 14: 2.1447866879178039, 15: 2.1314495455597751,
+        16: 2.1199052992212541, 17: 2.1098155778333165, 18: 2.1009220402410382,
+        19: 2.0930240544083092, 20: 2.0859634472658648, 21: 2.07961384472768,
+        22: 2.0738730679040258, 23: 2.0686576104190482, 24: 2.0638985616280254,
+        25: 2.0595385527532977, 26: 2.0555294386428726, 27: 2.051830516480285,
+        28: 2.0484071417952445, 29: 2.0452296421327034, 30: 2.0422724563012378,
+        31: 2.0395134463964082, 32: 2.0369333434601016, 33: 2.0345152974493383,
+        34: 2.0322445093177186, 35: 2.0301079282503425, 36: 2.0280940009804507,
+        37: 2.0261924630291088, 38: 2.0243941639119694, 39: 2.0226909200367604,
+        40: 2.0210753903062733, 50: 2.0085591121007607, 60: 2.0002978220142595,
+        80: 1.9900634212544459, 100: 1.9839715185235516,
     }
     if df in table:
         return table[df]
     # Cornish-Fisher around the normal quantile for arbitrary df
-    z = 1.959964
+    z = 1.959963984540054
     g1 = (z**3 + z) / 4
     g2 = (5*z**5 + 16*z**3 + 3*z) / 96
     g3 = (3*z**7 + 19*z**5 + 17*z**3 - 15*z) / 384
@@ -247,7 +256,7 @@ class PoolResult:
 
 
 def pool_effects(trials: list, scale: str) -> Optional[PoolResult]:
-    """REML + HKSJ(floored) random-effects pool of a list of TrialEffect."""
+    """Paule-Mandel + HKSJ(floored) random-effects pool of a list of TrialEffect."""
     k = len(trials)
     if k < 2:
         return None
